@@ -1,0 +1,119 @@
+//Knapsack using Greedy algorithm
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+int maxi(int a, int b){
+ int max =  a>b?a:b;
+ return max;
+}
+
+void sorting(int wt[],int val[],float w_v[], int n){
+    int idx;
+    float temp, maxi;
+    int temp_wt, temp_val;
+    
+    for(int i=0; i<n; i++){
+        maxi = w_v[i];
+        idx = i;
+        for(int j=i; j<n-1; j++){
+            int k = j+1;
+            if(maxi < w_v[k]){
+                maxi = w_v[k];
+                idx = k;
+            }
+        }
+    temp = w_v[i];
+    w_v[i] = w_v[idx]; //maxi;
+    w_v[idx] = temp;
+    
+    temp_wt = wt[i];
+    wt[i] = wt[idx];
+    wt[idx] = temp_wt;
+    
+    temp_val = val[i];
+    val[i] = val[idx];
+    val[idx] = temp_val;
+    
+    }
+    
+}
+
+
+
+float knapsack(int wt[], int val[], float w_v[], int n, int t_capacity){
+ 
+    float price =0;
+    int r_capacity = t_capacity;
+    
+    for(int i=0; i<n; i++){
+        if(wt[i] < r_capacity ){
+            price += val[i];
+            r_capacity -= wt[i];
+            
+        }
+        
+        else if(wt[i] > r_capacity &&  r_capacity > 0){
+            price += w_v[i]*r_capacity;
+            r_capacity = 0;
+            cout<<endl<<"Price = "<<price<<",  r_capi = "<<r_capacity;
+            return price;
+        }
+        cout<<endl<<"Price = "<<price<<",  r_capi = "<<r_capacity;
+    }
+    
+    cout<<endl<<"Price = "<<price;
+    
+    return price;
+};
+
+
+void display(int wt[], int val[], float w_v[], int n){
+    
+    for(int i=0; i<n; i++){
+    cout<<val[i]<<",  ";
+    }  
+    cout<<endl;
+    for(int i=0; i<n; i++){
+    cout<<wt[i]<<",  ";
+    }
+    cout<<endl;
+    for(int i=0; i<n; i++){
+    cout<<w_v[i]<<",  ";
+    }
+}
+
+
+int main(){
+ 
+ int val[] = {5,3,2,6,1,8};
+ int wt[] = {3,1,10,6,3,5};
+ int t_capacity = 16;
+ float w_v[6] = {};
+ int n=6;
+    for(int i=0; i<n; i++){
+        w_v[i] = round(((1.0 * val[i])/wt[i])*100)/100.0;
+    }
+    
+    cout<<"Before Sorting"<<endl;
+    display(wt,val,w_v,n);
+    
+    sorting(wt,val,w_v,n); //Aarranging of wt, val, according to dec. sorting of w_v
+    
+    cout<<endl<<"After Sorting"<<endl;
+    display(wt,val,w_v,n);
+    
+   float price = knapsack(wt,val,w_v,n,t_capacity);
+    cout<<endl<<"Price = "<<price;
+    
+   
+    
+
+    // knapsack(r,c,wt,val,Table);
+    // display(Table);
+
+ 
+ return 0;
+}
