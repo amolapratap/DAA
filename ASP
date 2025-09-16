@@ -9,32 +9,32 @@ int maxi(int a, int b){
  return max;
 }
 
-void sorting(int wt[],int val[],int w_v[], int n){
+void sorting(const char* A[], int Start[], int Finish[], int n){
     int idx;
-    int temp, maxi;
-    int temp_wt, temp_val;
+    int temp_F, temp_S, mini;
+    const char* temp_A;
     
     for(int i=0; i<n; i++){
-        maxi = w_v[i];
+        mini = Finish[i];
         idx = i;
         for(int j=i; j<n-1; j++){
             int k = j+1;
-            if(maxi < w_v[k]){
-                maxi = w_v[k];
+            if(mini > Finish[k]){
+                mini = Finish[k];
                 idx = k;
             }
         }
-    temp = w_v[i];
-    w_v[i] = w_v[idx]; //maxi;
-    w_v[idx] = temp;
+    temp_F = Finish[i];
+    Finish[i] = Finish[idx]; //maxi;
+    Finish[idx] = temp_F;
     
-    temp_wt = wt[i];
-    wt[i] = wt[idx];
-    wt[idx] = temp_wt;
+    temp_A = A[i];
+    A[i] = A[idx];
+    A[idx] = temp_A;
     
-    temp_val = val[i];
-    val[i] = val[idx];
-    val[idx] = temp_val;
+    temp_S = Start[i];
+    Start[i] = Start[idx];
+    Start[idx] = temp_S;
     
     }
     
@@ -42,7 +42,7 @@ void sorting(int wt[],int val[],int w_v[], int n){
 
 
 
-int knapsack(int wt[], int val[], int w_v[], int n, int t_capacity){
+int knapsack(const char* A[], int Start[], int Finish[], int n){
  
     int price =0;
     int r_capacity = t_capacity;
@@ -76,18 +76,18 @@ void display(const char* A[], int Start[], int Finish[], int n){
     }  
     cout<<endl;
     for(int i=0; i<n; i++){
-    cout<<Start[i]<<",  ";
+    cout<<Start[i]<<",   ";
     }
     cout<<endl;
     for(int i=0; i<n; i++){
-    cout<<Finish[i]<<",  ";
+    cout<<Finish[i]<<",   ";
     }
 }
 
 
 int main(){
  
- const char* A[] = {"a1", "a2", "a3", "a4", "a5", "a6"};
+ const char* A[] = {"a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"};
  int Start[] = {1,0,1,4,2,5,3,4};
  int Finish[] = {3,4,2,6,9,8,5,5};
  int n = 8;
@@ -97,7 +97,7 @@ int main(){
     cout<<"Before Sorting"<<endl;
     display(A,Start,Finish,n);
     
-    // sorting(wt,val,w_v,n); //Aarranging of wt, val, according to dec. sorting of w_v
+    sorting(A,Start,Finish,n); 
     
     cout<<endl<<"After Sorting"<<endl;
     display(A,Start,Finish,n);
