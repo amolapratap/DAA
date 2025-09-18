@@ -1,0 +1,75 @@
+// MCM
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+void MCM(int d[], int r, int c, int M[6][6], int K[6][6]){
+ 
+ int curr_k = -1;
+ for(int t=0; t<c; t++){
+     int i = 0;
+     int j = t;
+     
+     while(j<c){
+        if(i == j){
+            M[i][j] = 0;
+             }
+        else{
+            int mini = 10000000;
+            for(int k=i; k<j; k++){     
+                int curr = M[i][k] + M[k+1][j] + d[i] * d[k+1] * d[j+1];
+                     
+                     if(curr < mini){
+                     mini = curr;
+                     curr_k = k;
+                     }
+                 }
+            K[i][j] = curr_k + 1;
+            M[i][j] = mini;
+         }
+         
+         i++;
+         j++;
+     }
+ }
+ 
+ 
+};
+
+
+void display(int r, int c, int Table[6][6]){
+ for(int i=0; i<r; i++){
+  for(int j=0; j<c; j++){
+      cout<<Table[i][j]<<",    ";
+  }
+  cout<<endl;
+ }
+}
+
+void display_K(int r, int c, int K[6][6]){
+ for(int i=0; i<r; i++){
+  for(int j=0; j<c; j++){
+      cout<<K[i][j]<<",    ";
+  }
+  cout<<endl;
+ }
+}
+
+int main(){
+ 
+ int d[] = {30,35,15,5,10,20,25};
+ 
+ int r=6;
+ int c=6;
+ int M[6][6] = {};
+ int K[6][6] = {};
+
+    MCM(d,r,c,M,K);
+    display(r,c,M);
+    
+    cout<<"value of K"<<endl;
+    display_K(r,c,K);
+ 
+ return 0;
+}
