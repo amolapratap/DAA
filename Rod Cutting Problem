@@ -1,0 +1,94 @@
+//Rod cutting problem
+//finding item  Done; 
+//from starting row=0  using function and for loop    Done                                                                                                   //finding item  Done; 
+//from starting row=0  using built in max function  Done
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int maxi(int a, int b){
+ int max =  a>b?a:b;
+ return max;
+}
+
+void Rcp(int r, int c, int length[], int price[], int Table[5][6]){
+ 
+ for(int i=0; i<r; i++){
+  for(int j=0; j<=c; j++){
+   if(length[i] > j){
+    if(i == 0){
+     Table[i][j] = 0;
+    }
+    else{
+    Table[i][j] = Table[i-1][j];
+    }
+   }
+   else{
+    if(i == 0){
+     Table[i][j] = price[i] +  Table[i][j-length[i]];
+    }
+    
+    else{
+    int x = Table[i-1][j];
+    int y =  price[i] +  Table[i][j-length[i]];
+    
+    Table[i][j] = max(x, y);
+    }
+    
+   }
+   
+  }
+ }
+
+ 
+};
+
+
+void display(int Table[5][6]){
+ for(int i=0; i<5; i++){
+  for(int j=0; j<=5; j++){
+   cout<<Table[i][j]<<",";
+  }
+  cout<<endl;
+ }
+}
+
+
+ int find_item(int i, int j,int length[] ,int price[], int Table[5][6]){
+     
+     for(i=i; i>-1; i--){
+     if(Table[i][j] == Table[i-1][j] ){
+     }
+     
+     else if(Table[i][j] > Table[i-1][j] ){
+         cout<<"  "<<length[i]<<"         "<<price[i]<<endl;
+         if(length[i] == j){
+            break;
+         }
+         j=j-length[i];
+         i++;
+     }
+    }
+     return 0;
+ }
+
+int main(){
+ 
+ int lenth[] = {1,2,3,4,5};
+ int price[] = {1,5,8,9,10};
+ 
+ int r=5;
+ int c=5;
+ int Table[5][6] = {};
+
+    Rcp(r,c,lenth,price,Table);
+    display(Table);
+ 
+ cout<<"max price="<<Table[4][5];
+ 
+ cout<<endl<<"Rod selected:"<<endl;
+ cout<<"Length      Price"<<endl;
+ find_item(r-1, c, lenth, price, Table);
+ 
+ return 0;
+}
