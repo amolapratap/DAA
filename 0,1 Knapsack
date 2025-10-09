@@ -1,0 +1,92 @@
+// 0/1 Knapsack 
+//finding item  Done; 
+//from starting row=0  using function and for loop    Done                                                                                                   //finding item  Done; 
+//from starting row=0  using built in max function  Done
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int maxi(int a, int b){
+ int max =  a>b?a:b;
+ return max;
+}
+
+void knapsack(int r, int c, int wt[], int val[], int Table[4][8]){
+ 
+ for(int i=0; i<r; i++){
+  for(int j=0; j<=c; j++){
+   if(wt[i] > j){
+    if(i == 0){
+     Table[i][j] = 0;
+    }
+    else{
+    Table[i][j] = Table[i-1][j];
+    }
+   }
+   else{
+    if(i == 0){
+     Table[i][j] = val[i];
+    }
+    
+    else{
+    int x = Table[i-1][j];
+    int y = val[i] + Table[i-1][j-wt[i]];
+    
+    Table[i][j] = max(x, y);
+    }
+    
+   }
+   
+  }
+ }
+
+ 
+};
+
+
+void display(int Table[4][8]){
+ for(int i=0; i<4; i++){
+  for(int j=0; j<8; j++){
+   cout<<Table[i][j]<<",";
+  }
+  cout<<endl;
+ }
+}
+
+
+ int find_item(int i, int j,int wt[] ,int val[], int Table[4][8]){
+     
+     for(i=i; i>0; i--){
+     if(Table[i][j] == Table[i-1][j] ){
+     }
+     
+     else if(Table[i][j] > Table[i-1][j] ){
+         cout<<wt[i]<<":"<<val[i]<<",";
+         if(wt[i] == j){
+            break;
+         }
+         j=j-wt[i];
+     }
+    }
+     return 0;
+ }
+
+int main(){
+ 
+ int wt[] = {1,3,4,5};
+ int val[] = {1,4,5,7};
+ 
+ int r=4;
+ int c=7;
+ int Table[4][8] = {};
+
+    knapsack(r,c,wt,val,Table);
+    display(Table);
+ 
+ cout<<"max value="<<Table[3][7];
+ 
+ cout<<endl<<"Weight selected:";
+ find_item(r-1, c, wt, val, Table);
+ 
+ return 0;
+}
